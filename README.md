@@ -1,6 +1,6 @@
 # Cinema Management
 
-This project allows you to retrieve cinema session schedules. It uses the cinema API and web scraping to obtain data on session schedules and cinema information.
+This project allows you to retrieve cinema session schedules from website kino.kz. It uses the cinema API and web scraping to obtain data on session schedules and cinema information.
 
 
 Installation:
