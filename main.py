@@ -19,15 +19,17 @@ app.add_middleware(BaseHTTPMiddleware, dispatch=exception_handler)
 
 class CinemaResponse(BaseModel):
     """
-    The response model for getting a list of cinemas.
+    The response model for getting a list of cinemas and status.
     """
+    detail: str
     cinemas: List[Cinema]
 
 
 class AfishaResponse(BaseModel):
     """
-    The response model for getting a list of afisha sessions.
+    The response model for getting a list of afisha sessions and status.
     """
+    detail: str
     afisha: List[SessionAfisha]
 
 
@@ -37,7 +39,7 @@ def read_cinemas() -> CinemaResponse:
     Endpoint for retrieving all cinemas.
     """
     cinemas = ManageCinema().get_cinemas
-    return CinemaResponse(cinemas=cinemas)
+    return CinemaResponse(detail='success', cinemas=cinemas)
 
 
 @app.get("/api/cinema/{cinema_id}", response_model=AfishaResponse)
@@ -49,4 +51,4 @@ def read_item(cinema_id: int) -> AfishaResponse:
         cinema_id: An integer representing the cinema ID.
     """
     afisha = ManageAfisha(cinema_id).get_cinemas
-    return AfishaResponse(afisha=afisha)
+    return AfishaResponse(detail='success', afisha=afisha)

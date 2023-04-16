@@ -1,6 +1,6 @@
 from datetime import datetime
 import requests
-from typing import List, TypedDict, TypeAlias, Optional
+from typing import List, TypedDict, TypeAlias, Optional, Union
 
 from services.exceptions import ParsingError
 
@@ -18,7 +18,7 @@ class SessionAfisha(TypedDict):
     """TypedDict for a cinema session schedule."""
 
     hall_name: str
-    sessions: List[Session]
+    sessions: str | List[Session]
 
 
 class ManageAfisha:
@@ -53,6 +53,10 @@ class ManageAfisha:
                 and return a list of SessionAfisha objects.
         """
         sessions = sessions['result']['sessions']
+
+        if not sessions:
+            raise ParsingError('The cinema not found')
+
         data = []
         for session in sessions:
             hall_information = SessionAfisha(
@@ -65,7 +69,7 @@ class ManageAfisha:
 
     def _parse_sessions(self, sessions: List[dict]) -> List[Session]:
         """Parse a list of cinema session dictionaries and return a list of Session objects."""
-        
+
         sessions_list = []
         for session in sessions:
             sessions_list.append(Session(
